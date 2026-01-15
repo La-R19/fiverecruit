@@ -1,0 +1,110 @@
+
+"use server"
+
+import { z } from "zod"
+import { createClient } from "@/utils/supabase/server"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+
+const jobSchema = z.object({
+    title: z.string().min(2, "Le titre doit faire au moins 2 caractères."),
+    description: z.string().optional(),
+    contractType: z.string().optional(),
+    whitelistRequired: z.boolean().optional(),
+    icon: z.string().optional(),
+    serverId: z.string().uuid().optional(), // Optional for updates
+})
+
+export async function createJob(prevState: any, formData: FormData) {
+    const validatedFields = jobSchema.safeParse({
+        title: formData.get('title'),
+        description: formData.get('description') || undefined,
+        contractType: formData.get('contractType') || undefined,
+        serverId: formData.get('serverId'),
+    })
+
+    if (!validatedFields.success) {
+        return {
+            message: "Erreur de validation",
+            errors: validatedFields.error.flatten().fieldErrors
+        }
+    }
+
+    const { title, description, contractType, serverId } = validatedFields.data
+    const supabase = await createClient()
+
+    // Verify ownership/permissions (basic check for owner)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { message: "Non connecté" }
+
+    // Check License Limits
+    const { data: limitCheck, error: limitError } = await supabase.rpc('check_server_limit', {
+        p_server_id: serverId
+    })
+
+    if (limitError) {
+        console.error("Limit Check Error Details:", JSON.stringify(limitError, null, 2))
+        return { message: `Erreur interne: ${limitError.message || limitError.code || 'Inconnue'}` }
+    }
+
+    if (limitCheck && !limitCheck.allowed) {
+        return {
+            message: `Limite atteinte (${limitCheck.current}/${limitCheck.max}). Passez au plan Pro pour en créer plus.`
+        }
+    }
+
+    const { error } = await supabase.from('jobs').insert({
+        title,
+        description: description || '',
+        contract_type: contractType || 'Temps plein',
+        server_id: serverId,
+        form_schema: [],
+    })
+
+    if (error) {
+        console.error(error)
+        return { message: "Erreur lors de la création du job" }
+    }
+
+    revalidatePath(`/dashboard/server/${serverId}`)
+    return { message: null, success: true }
+}
+
+export async function updateJob(jobId: string, serverId: string, prevState: any, formData: FormData) {
+    const validatedFields = jobSchema.safeParse({
+        title: formData.get('title'),
+        description: formData.get('description'),
+        contractType: formData.get('contractType'),
+        whitelistRequired: formData.get('whitelistRequired') === 'on',
+        icon: formData.get('icon'),
+    })
+
+    if (!validatedFields.success) {
+        return {
+            message: "Erreur de validation",
+            errors: validatedFields.error.flatten().fieldErrors
+        }
+    }
+
+    const { title, description, contractType, whitelistRequired, icon } = validatedFields.data
+    const supabase = await createClient()
+
+    const { error } = await supabase
+        .from('jobs')
+        .update({
+            title,
+            description,
+            contract_type: contractType,
+            whitelist_required: whitelistRequired,
+            icon
+        })
+        .eq('id', jobId)
+
+    if (error) {
+        console.error(error)
+        return { message: "Erreur lors de la modification" }
+    }
+
+    revalidatePath(`/dashboard/server/${serverId}`)
+    return { message: null, success: true }
+}
