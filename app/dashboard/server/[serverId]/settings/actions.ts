@@ -22,7 +22,8 @@ export async function updateServer(serverId: string, formData: any) {
     // Validate
     const result = serverSchema.safeParse(formData)
     if (!result.success) {
-        throw new Error(result.error.errors[0].message)
+        // @ts-ignore
+        throw new Error(result.error.issues?.[0]?.message || "Validation error")
     }
 
     const { error } = await supabase
