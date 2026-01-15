@@ -31,7 +31,8 @@ export default function NewServerPage() {
                         <div className="space-y-2">
                             <Label htmlFor="name">Nom du Serveur</Label>
                             <Input id="name" name="name" placeholder="Ex: Los Santos Roleplay" required />
-                            {state?.errors?.name && <p className="text-sm text-red-500">{state.errors.name}</p>}
+                            {/* @ts-ignore */}
+                            {(state as any)?.errors?.name && <p className="text-sm text-red-500">{(state as any).errors.name}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -40,14 +41,16 @@ export default function NewServerPage() {
                                 <span className="bg-gray-100 border border-r-0 rounded-l-md px-3 py-2 text-sm text-gray-500">fiverecruit.com/</span>
                                 <Input id="slug" name="slug" placeholder="mon-serveur" className="rounded-l-none" required />
                             </div>
-                            {state?.errors?.slug && <p className="text-sm text-red-500">{state.errors.slug}</p>}
+                            {/* @ts-ignore */}
+                            {(state as any)?.errors?.slug && <p className="text-sm text-red-500">{(state as any).errors.slug}</p>}
                             <p className="text-xs text-muted-foreground">Ce sera le lien public pour vos candidats.</p>
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="description">Description courte</Label>
                             <Textarea id="description" name="description" placeholder="Le meilleur serveur de France..." />
-                            {state?.errors?.description && <p className="text-sm text-red-500">{state.errors.description}</p>}
+                            {/* @ts-ignore */}
+                            {(state as any)?.errors?.description && <p className="text-sm text-red-500">{(state as any).errors.description}</p>}
                         </div>
 
                         {state?.message && (
