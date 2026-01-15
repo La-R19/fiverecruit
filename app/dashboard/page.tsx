@@ -99,7 +99,7 @@ export default async function DashboardPage() {
                                     <span className="px-3 py-1 bg-white text-gray-900 rounded-md text-[10px] font-bold uppercase tracking-wide shadow-sm">
                                         {server.userRole === 'viewer' ? 'Observateur' :
                                             server.userRole === 'manager' ? 'Manager' :
-                                                server.owner_id === user.id ? 'Propriétaire' : server.userRole || 'Admin'}
+                                                server.owner_id === user?.id ? 'Propriétaire' : server.userRole || 'Admin'}
                                     </span>
                                 </div>
                             </div>
