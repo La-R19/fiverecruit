@@ -57,7 +57,7 @@ export async function POST(req: Request) {
                     // Retrieve full subscription details to get dates
                     const subscription: any = await stripe.subscriptions.retrieve(subscriptionId);
 
-                    await supabaseAdmin.from("subscriptions").upsert({
+                    const { error: subError } = await supabaseAdmin.from("subscriptions").upsert({
                         id: subscriptionId,
                         user_id: userId,
                         status: subscription.status,
@@ -66,9 +66,13 @@ export async function POST(req: Request) {
                         cancel_at_period_end: subscription.cancel_at_period_end,
                         current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
                         current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date().toISOString(),
-                        created: subscription.created ? new Date(subscription.created * 1000).toISOString() : new Date().toISOString(),
-                        stripe_customer_id: customerId // Not in table schema? Oh customers table has it.
+                        created: subscription.created ? new Date(subscription.created * 1000).toISOString() : new Date().toISOString()
                     });
+
+                    if (subError) {
+                        console.error(`❌ DB Upsert Error ${subscriptionId}: ${subError.message}`);
+                        throw new Error(`DB Error: ${subError.message}`);
+                    }
 
                     // Ensure customer mapping exists (redundant if action did it, but safe)
                     await supabaseAdmin.from("customers").upsert({
