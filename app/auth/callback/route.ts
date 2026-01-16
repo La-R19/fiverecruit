@@ -16,10 +16,12 @@ export async function GET(request: Request) {
 
         if (!error) {
             // If successful, redirect to the dashboard or the 'next' URL
-            return NextResponse.redirect(`${requestUrl.origin}${next}`);
+            const origin = process.env.NEXT_PUBLIC_SITE_URL || requestUrl.origin;
+            return NextResponse.redirect(`${origin}${next}`);
         }
     }
 
     // If there's an error or no code, redirect to the login page with an error parameter
-    return NextResponse.redirect(`${requestUrl.origin}/login?error=auth`);
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || requestUrl.origin;
+    return NextResponse.redirect(`${origin}/login?error=auth`);
 }
