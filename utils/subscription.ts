@@ -20,11 +20,6 @@ export async function checkSubscriptionStatus() {
         .single();
 
     if (!subscription) {
-        console.log("❌ No ACTIVE subscription found for user:", user.id);
-        // Debug: fetch all to see what's wrong (wrong status?)
-        const { data: debugSubs, error } = await supabase.from("subscriptions").select("*").eq("user_id", user.id);
-        console.log("🔍 DEBUG - All Subscriptions for user:", JSON.stringify(debugSubs, null, 2));
-        console.log("🔍 DEBUG - Error?", error);
         return { isPro: false, plan: 'free' };
     }
 
