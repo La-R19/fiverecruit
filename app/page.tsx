@@ -13,7 +13,10 @@ export default function Home() {
             <div className="h-8 w-8 bg-black text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-sm">F</div>
             <span className="font-bold text-lg tracking-tight">FiveRecruit</span>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
+            <Link href="/pricing" className="text-sm font-medium text-gray-600 hover:text-black mr-4 hidden md:block">
+              Tarifs
+            </Link>
             <Link href="/login">
               <Button variant="ghost" className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-5 font-medium">
                 Connexion
