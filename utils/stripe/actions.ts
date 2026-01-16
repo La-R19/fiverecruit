@@ -56,7 +56,8 @@ export async function createCheckoutSession(priceId: string) {
         cancel_url: `${origin}/pricing?canceled=true`,
         metadata: {
             userId: user.id
-        }
+        },
+        allow_promotion_codes: true,
     });
 
     if (!session.url) {

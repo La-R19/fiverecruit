@@ -12,10 +12,11 @@ const supabase = createClient(
 // Constants
 const ADMIN_ID = '1088195166302642288';
 
-// /myservers (User)
-new SlashCommandBuilder()
-    .setName('myservers')
-    .setDescription('Voir mes serveurs FiveRecruit'),
+const commands = [
+    // /myservers (User)
+    new SlashCommandBuilder()
+        .setName('myservers')
+        .setDescription('Voir mes serveurs FiveRecruit'),
 
     // /applications (User)
     new SlashCommandBuilder()
@@ -57,85 +58,7 @@ client.on('ready', () => {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
-    // --- ADMIN COMMANDS ---
-
-    // /genkey
-    if (interaction.commandName === 'genkey') {
-        if (interaction.user.id !== ADMIN_ID) return interaction.reply({ content: "❌ Non autorisé.", ephemeral: true });
-
-        const plan = interaction.options.getString('plan');
-        const jobs = interaction.options.getInteger('jobs');
-        const days = interaction.options.getInteger('days');
-        const key = generateLicenseKey();
-
-        let expiresAt = null;
-        if (days > 0) {
-            const date = new Date();
-            date.setDate(date.getDate() + days);
-            expiresAt = date.toISOString();
-        }
-
-        await interaction.deferReply({ ephemeral: true });
-
-        const { error } = await supabase
-            .from('licenses')
-            .insert({ key: key, plan: plan, max_jobs: jobs, expires_at: expiresAt });
-
-        if (error) return interaction.editReply(`❌ Erreur: ${error.message}`);
-
-        await interaction.editReply({
-            content: `✅ **Licence Générée**\n🔑 \`${key}\`\n💎 ${plan.toUpperCase()} (${jobs} offres)`
-        });
-    }
-
-    // /listkeys
-    if (interaction.commandName === 'listkeys') {
-        if (interaction.user.id !== ADMIN_ID) return interaction.reply({ content: "❌ Non autorisé.", ephemeral: true });
-
-        await interaction.deferReply({ ephemeral: true });
-
-        // Fetch ALL licenses with server name
-        const { data: licenses, error } = await supabase
-            .from('licenses')
-            .select('*, servers(name)')
-            .order('created_at', { ascending: false });
-
-        if (error) return interaction.editReply(`❌ Erreur DB: ${error.message}`);
-        if (!licenses || licenses.length === 0) return interaction.editReply("Aucune licence trouvée.");
-
-        const lines = licenses.map(l => {
-            // Check if server exists (joined data)
-            const serverName = l.servers?.name ? `🟢 ${l.servers.name}` : '🔴 Non activée';
-            return `\`${l.key}\` | ${l.plan} | ${serverName}`;
-        });
-
-        const fullText = lines.join('\n');
-
-        // Send as file if too long
-        if (fullText.length > 1900) {
-            const buffer = Buffer.from(fullText, 'utf-8');
-            const attachment = new AttachmentBuilder(buffer, { name: 'toutes_les_licences.txt' });
-            return interaction.editReply({
-                content: `📋 **Liste Complète (${licenses.length} licences)**\n(Liste trop longue pour Discord, voir fichier joint)`,
-                files: [attachment]
-            });
-        } else {
-            interaction.editReply(`**Liste des Licences (${licenses.length}) :**\n${fullText}`);
-        }
-    }
-
-    // /delkey
-    if (interaction.commandName === 'delkey') {
-        if (interaction.user.id !== ADMIN_ID) return interaction.reply({ content: "❌ Non autorisé.", ephemeral: true });
-
-        const key = interaction.options.getString('key');
-        await interaction.deferReply({ ephemeral: true });
-
-        const { error } = await supabase.from('licenses').delete().eq('key', key);
-
-        if (error) return interaction.editReply(`❌ Erreur: ${error.message}`);
-        interaction.editReply(`✅ Licence \`${key}\` supprimée.`);
-    }
+    // --- USER COMMANDS ---
 
     // --- USER COMMANDS ---
 
