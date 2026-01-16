@@ -67,8 +67,21 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
 
     // Calculate Stats
     const totalJobs = jobs?.length || 0
-    const activeJobs = jobs?.filter(j => j.is_open).length || 0
+    // const activeJobs = jobs?.filter(j => j.is_open).length || 0 // Unused in new UI
     const totalApplications = jobs?.reduce((acc, job) => acc + ((job.applications as any)?.[0]?.count || 0), 0) || 0
+
+    // Fetch Subscription Status for UI
+    const { checkSubscriptionStatus } = await import("@/utils/subscription")
+    const { plan } = await checkSubscriptionStatus()
+
+    const limits = {
+        'free': 1,
+        'standard': 5,
+        'premium': Infinity
+    }
+    const currentLimit = limits[plan as keyof typeof limits] || 1
+    const planName = plan === 'premium' ? 'Premium' : (plan === 'standard' ? 'Standard' : 'Gratuit')
+    const percentage = currentLimit === Infinity ? 0 : (totalJobs / currentLimit) * 100
 
     return (
         <div className="space-y-8 pb-10">
@@ -116,12 +129,21 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
                 <div className="grid gap-4 md:grid-cols-3">
                     <Card className="shadow-sm border-l-4 border-l-blue-500">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Postes Actifs</CardTitle>
+                            <CardTitle className="text-sm font-medium">Postes & Abonnement</CardTitle>
                             <Briefcase className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{activeJobs} / {totalJobs}</div>
-                            <p className="text-xs text-muted-foreground">Offres d'emploi publiées</p>
+                            <div className="text-2xl font-bold">{totalJobs} / {currentLimit === Infinity ? '∞' : currentLimit}</div>
+                            <div className="text-xs text-muted-foreground mt-1 flex items-center justify-between">
+                                <span>Plan {planName}</span>
+                                {percentage >= 100 && <span className="text-red-500 font-semibold">Max atteint</span>}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                <div
+                                    className={`bg-blue-600 h-1.5 rounded-full ${percentage >= 100 ? 'bg-red-500' : ''}`}
+                                    style={{ width: `${Math.min(percentage, 100)}%` }}
+                                ></div>
+                            </div>
                         </CardContent>
                     </Card>
                     <Card className="shadow-sm border-l-4 border-l-purple-500">
