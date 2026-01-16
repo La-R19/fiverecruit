@@ -29,6 +29,9 @@ export async function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <Link href="/pricing">
+                        <Button variant="ghost">Tarifs</Button>
+                    </Link>
                     {user ? (
                         <div className="flex items-center gap-4">
                             <Link href="/dashboard">
