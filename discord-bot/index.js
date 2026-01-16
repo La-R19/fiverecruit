@@ -12,47 +12,10 @@ const supabase = createClient(
 // Constants
 const ADMIN_ID = '1088195166302642288';
 
-const commands = [
-    // /genkey (Admin)
-    new SlashCommandBuilder()
-        .setName('genkey')
-        .setDescription('Générer une clé de licence (Admin Only)')
-        .addStringOption(option =>
-            option.setName('plan')
-                .setDescription('Le plan de la licence')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'Plan Gratuit', value: 'free' },
-                    { name: 'Plan Pro', value: 'pro' },
-                    { name: 'Entreprise', value: 'enterprise' }
-                ))
-        .addIntegerOption(option =>
-            option.setName('jobs')
-                .setDescription("Nombre max d'offres")
-                .setRequired(true))
-        .addIntegerOption(option =>
-            option.setName('days')
-                .setDescription("Durée en jours (0 pour illimité)")
-                .setRequired(true)),
-
-    // /listkeys (Admin)
-    new SlashCommandBuilder()
-        .setName('listkeys')
-        .setDescription('Lister TOUTES les licences (Admin Only)'),
-
-    // /delkey (Admin)
-    new SlashCommandBuilder()
-        .setName('delkey')
-        .setDescription('Supprimer une licence (Admin Only)')
-        .addStringOption(option =>
-            option.setName('key')
-                .setDescription('La clé à supprimer')
-                .setRequired(true)),
-
-    // /myservers (User)
-    new SlashCommandBuilder()
-        .setName('myservers')
-        .setDescription('Voir mes serveurs FiveRecruit'),
+// /myservers (User)
+new SlashCommandBuilder()
+    .setName('myservers')
+    .setDescription('Voir mes serveurs FiveRecruit'),
 
     // /applications (User)
     new SlashCommandBuilder()

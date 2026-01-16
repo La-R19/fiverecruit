@@ -37,19 +37,35 @@ export async function createJob(prevState: any, formData: FormData) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { message: "Non connecté" }
 
-    // Check License Limits
-    const { data: limitCheck, error: limitError } = await supabase.rpc('check_server_limit', {
-        p_server_id: serverId
-    })
+    // Check Subscription Limits
+    // 1. Get current job count for this server
+    const { count, error: countError } = await supabase
+        .from('jobs')
+        .select('*', { count: 'exact', head: true })
+        .eq('server_id', serverId)
 
-    if (limitError) {
-        console.error("Limit Check Error Details:", JSON.stringify(limitError, null, 2))
-        return { message: `Erreur interne: ${limitError.message || limitError.code || 'Inconnue'}` }
+    if (countError) {
+        console.error("Job Count Error:", countError)
+        return { message: "Erreur lors de la vérification des limites." }
     }
 
-    if (limitCheck && !limitCheck.allowed) {
+    // 2. Check Subscription
+    const { checkSubscriptionStatus } = await import("@/utils/subscription")
+    const { plan } = await checkSubscriptionStatus()
+
+    const limits = {
+        'free': 1,
+        'standard': 5,
+        'premium': Infinity
+    }
+
+    const currentLimit = limits[plan as keyof typeof limits] || 1
+    const currentCount = count || 0
+
+    if (currentCount >= currentLimit) {
+        let planName = plan === 'free' ? 'Gratuit' : (plan === 'standard' ? 'Standard' : 'Premium')
         return {
-            message: `Limite atteinte (${limitCheck.current}/${limitCheck.max}). Passez au plan Pro pour en créer plus.`
+            message: `Limite atteinte pour le plan ${planName} (${currentCount}/${currentLimit === Infinity ? '∞' : currentLimit}). Passez au plan supérieur pour en créer plus.`
         }
     }
 
