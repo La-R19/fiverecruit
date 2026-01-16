@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server"
 import { checkPermission } from "@/utils/permissions"
 import { notFound, redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { createPortalSession } from "@/utils/stripe/actions"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { ArrowLeft, Plus, FileText, Settings, Users, Briefcase, ArrowRight, Activity, Shield } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -138,12 +139,18 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
                                 <span>Plan {planName}</span>
                                 {percentage >= 100 && <span className="text-red-500 font-semibold">Max atteint</span>}
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2 mb-3">
                                 <div
                                     className={`bg-blue-600 h-1.5 rounded-full ${percentage >= 100 ? 'bg-red-500' : ''}`}
                                     style={{ width: `${Math.min(percentage, 100)}%` }}
                                 ></div>
                             </div>
+
+                            <form action={createPortalSession}>
+                                <Button variant="outline" size="sm" className="w-full text-xs h-7">
+                                    Gérer l'abonnement
+                                </Button>
+                            </form>
                         </CardContent>
                     </Card>
                     <Card className="shadow-sm border-l-4 border-l-purple-500">
