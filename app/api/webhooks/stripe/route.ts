@@ -54,7 +54,8 @@ export async function POST(req: Request) {
                     }
 
                     // Retrieve full subscription details to get dates
-                    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+                    // Retrieve full subscription details to get dates
+                    const subscription = await stripe.subscriptions.retrieve(subscriptionId) as unknown as Stripe.Subscription;
 
                     await supabaseAdmin.from("subscriptions").upsert({
                         id: subscriptionId,
