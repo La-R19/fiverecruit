@@ -83,7 +83,7 @@ export async function POST(req: Request) {
 
             case "customer.subscription.updated":
             case "customer.subscription.deleted": {
-                const subscription = event.data.object as Stripe.Subscription;
+                const subscription: any = event.data.object;
 
                 await supabaseAdmin.from("subscriptions").upsert({
                     id: subscription.id,
