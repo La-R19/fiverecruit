@@ -64,9 +64,9 @@ export async function POST(req: Request) {
                         price_id: subscription.items.data[0].price.id,
                         quantity: 1,
                         cancel_at_period_end: subscription.cancel_at_period_end,
-                        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-                        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-                        created: new Date(subscription.created * 1000).toISOString(),
+                        current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
+                        current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date().toISOString(),
+                        created: subscription.created ? new Date(subscription.created * 1000).toISOString() : new Date().toISOString(),
                         stripe_customer_id: customerId // Not in table schema? Oh customers table has it.
                     });
 
@@ -97,8 +97,8 @@ export async function POST(req: Request) {
                     status: subscription.status,
                     price_id: subscription.items.data[0].price.id,
                     cancel_at_period_end: subscription.cancel_at_period_end,
-                    current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-                    current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                    current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
+                    current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date().toISOString(),
                     ended_at: subscription.ended_at ? new Date(subscription.ended_at * 1000).toISOString() : null,
                     canceled_at: subscription.canceled_at ? new Date(subscription.canceled_at * 1000).toISOString() : null,
                 });
