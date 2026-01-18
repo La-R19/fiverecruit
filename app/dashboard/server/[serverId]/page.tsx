@@ -146,11 +146,19 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
                                 ></div>
                             </div>
 
-                            <form action={createPortalSession}>
-                                <Button variant="outline" size="sm" className="w-full text-xs h-7">
-                                    Gérer l'abonnement
-                                </Button>
-                            </form>
+                            {plan === 'free' ? (
+                                <Link href="/pricing">
+                                    <Button size="sm" className="w-full text-xs h-7 bg-blue-600 hover:bg-blue-700 text-white">
+                                        Passer Premium
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <form action={createPortalSession}>
+                                    <Button variant="outline" size="sm" className="w-full text-xs h-7">
+                                        Gérer l'abonnement
+                                    </Button>
+                                </form>
+                            )}
                         </CardContent>
                     </Card>
                     <Card className="shadow-sm border-l-4 border-l-purple-500">

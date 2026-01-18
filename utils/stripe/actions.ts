@@ -89,10 +89,15 @@ export async function createPortalSession() {
 
     const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiverecruit.com';
 
-    const session = await stripe.billingPortal.sessions.create({
-        customer: customerData.stripe_customer_id,
-        return_url: `${origin}/dashboard`,
-    });
+    try {
+        const session = await stripe.billingPortal.sessions.create({
+            customer: customerData.stripe_customer_id,
+            return_url: `${origin}/dashboard`,
+        });
 
-    redirect(session.url);
+        redirect(session.url);
+    } catch (error: any) {
+        console.error("❌ Portal Session Error:", error);
+        throw new Error(`Portal Error: ${error.message}`);
+    }
 }
