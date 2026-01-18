@@ -27,26 +27,36 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
     // Security Check
     if (server.owner_id !== user.id) redirect('/dashboard')
 
-        < Link href = {`/dashboard/server/${serverId}/settings/roles`
-}>
-    <Button variant="outline">
-        Gérer les Rôles
-    </Button>
-                    </Link >
-    <Link href={`/dashboard/server/${serverId}/settings/subscription`}>
-        <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
-            Abonnement
-        </Button>
-    </Link>
-                </div >
-            </div >
+    return (
+        <div className="max-w-2xl mx-auto space-y-6">
+            <div className="flex items-center gap-4">
+                <Link href={`/dashboard/server/${serverId}`}>
+                    <Button variant="ghost" size="icon">
+                        <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                </Link>
+                <div>
+                    <h1 className="text-2xl font-bold">Paramètres du Serveur</h1>
+                    <p className="text-sm text-muted-foreground">Gérez les informations publiques de votre serveur.</p>
+                </div>
+                <div className="flex gap-2">
+                    <Link href={`/dashboard/server/${serverId}/settings/roles`}>
+                        <Button variant="outline">
+                            Gérer les Rôles
+                        </Button>
+                    </Link>
+                    <Link href={`/dashboard/server/${serverId}/settings/subscription`}>
+                        <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+                            Abonnement
+                        </Button>
+                    </Link>
+                </div>
+            </div>
 
-
-
-    <div className="bg-white rounded-xl shadow-sm border p-6">
-        <h2 className="text-lg font-semibold mb-4">Informations Générales</h2>
-        <ServerSettingsForm server={server} />
-    </div>
-        </div >
+            <div className="bg-white rounded-xl shadow-sm border p-6">
+                <h2 className="text-lg font-semibold mb-4">Informations Générales</h2>
+                <ServerSettingsForm server={server} />
+            </div>
+        </div>
     )
 }
