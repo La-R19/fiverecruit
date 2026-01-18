@@ -8,7 +8,8 @@ import {
     Users,
     FileText,
     Server,
-    LogOut
+    LogOut,
+    Crown
 } from "lucide-react"
 
 import {
