@@ -43,6 +43,10 @@ export async function unassignSubscription(serverId: string, subscriptionId: str
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
+    if (!user) {
+        throw new Error("Unauthorized")
+    }
+
     // Permission check
     const canEditServer = await checkPermission(serverId, 'can_edit_server')
     if (!canEditServer) throw new Error("Permission denied")
