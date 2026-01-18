@@ -85,11 +85,11 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
     const limits = {
         'free': 1,
         'standard': 5,
-        'premium': Infinity
+        'premium': 9999
     }
     const currentLimit = limits[plan as keyof typeof limits] || 1
     const planName = plan === 'premium' ? 'Premium' : (plan === 'standard' ? 'Standard' : 'Gratuit')
-    const percentage = currentLimit === Infinity ? 0 : (totalJobs / currentLimit) * 100
+    const percentage = (totalJobs / currentLimit) * 100
 
     return (
         <div className="space-y-8 pb-10">
