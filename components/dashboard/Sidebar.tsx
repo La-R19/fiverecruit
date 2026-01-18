@@ -129,6 +129,17 @@ export function DashboardSidebar() {
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton asChild isActive={pathname?.includes('/subscription')}>
+                                        <Link href={`/dashboard/server/${serverId}/subscription`}>
+                                            <span className="flex items-center gap-2">
+                                                <Crown className="h-4 w-4" />
+                                                <span>Abonnement</span>
+                                            </span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>

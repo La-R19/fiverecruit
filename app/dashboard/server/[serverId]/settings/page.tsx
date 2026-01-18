@@ -45,11 +45,6 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
                             Gérer les Rôles
                         </Button>
                     </Link>
-                    <Link href={`/dashboard/server/${serverId}/settings/subscription`}>
-                        <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
-                            Abonnement
-                        </Button>
-                    </Link>
                 </div>
             </div>
 
