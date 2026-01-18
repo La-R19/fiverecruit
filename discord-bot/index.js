@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder, Events } = require('discord.js');
 const { createClient } = require('@supabase/supabase-js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -51,8 +51,8 @@ async function getUserProfile(discordId) {
     return { id: data.user_id, username: data.username };
 }
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+client.once(Events.ClientReady, c => {
+    console.log(`Logged in as ${c.user.tag}!`);
 });
 
 client.on('interactionCreate', async interaction => {
