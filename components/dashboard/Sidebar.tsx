@@ -119,16 +119,7 @@ export function DashboardSidebar() {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
 
-                                <SidebarMenuItem>
-                                    <SidebarMenuButton asChild isActive={pathname?.includes('/license')}>
-                                        <Link href={`/dashboard/server/${serverId}/license`}>
-                                            <span className="flex items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-crown h-4 w-4"><path d="m2 4 3 12h14l3-12-6 7-4-3-4 3-6-7Z" /><path d="M5 16v4h14v-4" /></svg>
-                                                <span>Abonnement</span>
-                                            </span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+
 
                                 <SidebarMenuItem>
                                     <SidebarMenuButton asChild isActive={pathname?.includes('/settings')}>

@@ -76,7 +76,7 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
 
     let plan = 'free';
     try {
-        const result = await checkSubscriptionStatus()
+        const result = await checkSubscriptionStatus(serverId)
         plan = result.plan;
     } catch (error) {
         console.error("Error checking subscription:", error);

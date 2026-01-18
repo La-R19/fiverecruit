@@ -49,9 +49,9 @@ export async function createJob(prevState: any, formData: FormData) {
         return { message: "Erreur lors de la vérification des limites." }
     }
 
-    // 2. Check Subscription
-    const { checkSubscriptionStatus } = await import("@/utils/subscription")
-    const { plan } = await checkSubscriptionStatus()
+    // Check for subscription using the new server-based logic
+    const { checkSubscriptionStatus } = await import("@/utils/subscription");
+    const { plan } = await checkSubscriptionStatus(serverId);
 
     const limits = {
         'free': 1,
