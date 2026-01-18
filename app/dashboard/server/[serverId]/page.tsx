@@ -73,7 +73,14 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
 
     // Fetch Subscription Status for UI
     const { checkSubscriptionStatus } = await import("@/utils/subscription")
-    const { plan } = await checkSubscriptionStatus()
+
+    let plan = 'free';
+    try {
+        const result = await checkSubscriptionStatus()
+        plan = result.plan;
+    } catch (error) {
+        console.error("Error checking subscription:", error);
+    }
 
     const limits = {
         'free': 1,
@@ -134,7 +141,7 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
                             <Briefcase className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{totalJobs} / {currentLimit === Infinity ? '∞' : currentLimit}</div>
+                            <div className="text-2xl font-bold">{totalJobs} / {currentLimit >= 1000 ? '∞' : currentLimit}</div>
                             <div className="text-xs text-muted-foreground mt-1 flex items-center justify-between">
                                 <span>Plan {planName}</span>
                                 {percentage >= 100 && <span className="text-red-500 font-semibold">Max atteint</span>}

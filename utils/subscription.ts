@@ -17,7 +17,7 @@ export async function checkSubscriptionStatus() {
         .select("status, price_id")
         .eq("user_id", user.id)
         .in("status", ["active", "trialing"])
-        .single();
+        .maybeSingle();
 
     if (!subscription) {
         return { isPro: false, plan: 'free' };
