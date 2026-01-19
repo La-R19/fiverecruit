@@ -101,6 +101,17 @@ export function EditJobForm({ job, serverId, onClose, canDelete = false }: { job
                     <input type="hidden" name="whitelistRequired" value={whitelist ? 'on' : 'off'} />
                 </div>
 
+                <div className="space-y-2">
+                    <Label htmlFor="discordWebhookUrl">Webhook Discord (Notifications)</Label>
+                    <Input
+                        id="discordWebhookUrl"
+                        name="discordWebhookUrl"
+                        defaultValue={job.discord_webhook_url || ''}
+                        placeholder="https://discord.com/api/webhooks/..."
+                    />
+                    <p className="text-xs text-muted-foreground">Laissez vide pour désactiver les notifications Discord.</p>
+                </div>
+
                 {state?.message && !state.success && (
                     <p className="text-sm text-red-500">{state.message}</p>
                 )}

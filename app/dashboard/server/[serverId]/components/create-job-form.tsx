@@ -35,6 +35,15 @@ export function CreateJobForm({ serverId }: { serverId: string }) {
                 )}
             </div>
 
+            <div className="space-y-2">
+                <Label htmlFor="discordWebhookUrl">Webhook Discord (Optionnel)</Label>
+                <Input id="discordWebhookUrl" name="discordWebhookUrl" placeholder="https://discord.com/api/webhooks/..." />
+                <p className="text-xs text-muted-foreground">URL pour recevoir les notifications de candidature.</p>
+                {state?.errors?.discordWebhookUrl && (
+                    <p className="text-sm text-red-500">{state.errors.discordWebhookUrl}</p>
+                )}
+            </div>
+
             {state?.message && !state.success && (
                 <p className="text-sm text-red-500">{state.message}</p>
             )}

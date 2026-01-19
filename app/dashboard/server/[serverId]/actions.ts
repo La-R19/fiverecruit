@@ -12,6 +12,7 @@ const jobSchema = z.object({
     contractType: z.string().optional(),
     whitelistRequired: z.boolean().optional(),
     icon: z.string().optional(),
+    discordWebhookUrl: z.string().url("URL invalide (doit commencer par https://)").optional().or(z.literal("")),
     serverId: z.string().uuid().optional(), // Optional for updates
 })
 
@@ -20,6 +21,7 @@ export async function createJob(prevState: any, formData: FormData) {
         title: formData.get('title'),
         description: formData.get('description') || undefined,
         contractType: formData.get('contractType') || undefined,
+        discordWebhookUrl: formData.get('discordWebhookUrl') || undefined,
         serverId: formData.get('serverId'),
     })
 
@@ -30,7 +32,7 @@ export async function createJob(prevState: any, formData: FormData) {
         }
     }
 
-    const { title, description, contractType, serverId } = validatedFields.data
+    const { title, description, contractType, discordWebhookUrl, serverId } = validatedFields.data
     const supabase = await createClient()
 
     // Verify ownership/permissions (basic check for owner)
@@ -73,6 +75,7 @@ export async function createJob(prevState: any, formData: FormData) {
         title,
         description: description || '',
         contract_type: contractType || 'Temps plein',
+        discord_webhook_url: discordWebhookUrl || null,
         server_id: serverId,
         form_schema: [],
     })
@@ -93,6 +96,7 @@ export async function updateJob(jobId: string, serverId: string, prevState: any,
         contractType: formData.get('contractType'),
         whitelistRequired: formData.get('whitelistRequired') === 'on',
         icon: formData.get('icon'),
+        discordWebhookUrl: formData.get('discordWebhookUrl'),
     })
 
     if (!validatedFields.success) {
@@ -102,7 +106,7 @@ export async function updateJob(jobId: string, serverId: string, prevState: any,
         }
     }
 
-    const { title, description, contractType, whitelistRequired, icon } = validatedFields.data
+    const { title, description, contractType, whitelistRequired, icon, discordWebhookUrl } = validatedFields.data
     const supabase = await createClient()
 
     const { error } = await supabase
@@ -112,7 +116,8 @@ export async function updateJob(jobId: string, serverId: string, prevState: any,
             description,
             contract_type: contractType,
             whitelist_required: whitelistRequired,
-            icon
+            icon,
+            discord_webhook_url: discordWebhookUrl || null
         })
         .eq('id', jobId)
 
