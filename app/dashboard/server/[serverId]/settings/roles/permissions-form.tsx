@@ -23,7 +23,8 @@ const PERMISSION_LABELS: Record<string, string> = {
     can_delete_applications: "Supprimer les candidatures",
     can_edit_server: "Modifier les infos du serveur",
     can_manage_team: "Gérer l'équipe (inviter/exclure)",
-    can_view_stats: "Voir les statistiques"
+    can_view_stats: "Voir les statistiques",
+    can_manage_subscription: "Gérer l'abonnement (paiements, factures)"
 };
 
 export function PermissionsForm({ serverId, initialPermissions }: PermissionsFormProps) {

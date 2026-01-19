@@ -17,6 +17,20 @@ export default async function SubscriptionPage(props: { params: Promise<{ server
 
     if (!user) redirect('/login')
 
+    // Permission Check
+    const { checkPermission } = await import("@/utils/permissions")
+    const canManageSub = await checkPermission(serverId, 'can_manage_subscription')
+
+    if (!canManageSub) {
+        return (
+            <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
+                <AlertCircle className="h-12 w-12 text-red-500" />
+                <h2 className="text-xl font-bold">Accès Refusé</h2>
+                <p className="text-muted-foreground">Vous n'avez pas la permission de gérer l'abonnement de ce serveur.</p>
+            </div>
+        )
+    }
+
     // 1. Get Current Server Subscription
     const { data: currentSub } = await supabase
         .from('subscriptions')

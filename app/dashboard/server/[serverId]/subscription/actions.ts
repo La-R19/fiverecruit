@@ -11,8 +11,8 @@ export async function assignSubscription(serverId: string, subscriptionId: strin
     if (!user) throw new Error("Unauthorized")
 
     // Check if user is admin of the server
-    const canEditServer = await checkPermission(serverId, 'can_edit_server')
-    if (!canEditServer) throw new Error("Permission denied")
+    const canManageSub = await checkPermission(serverId, 'can_manage_subscription')
+    if (!canManageSub) throw new Error("Permission denied")
 
     // Check if user OWNS the subscription
     const { data: subscription } = await supabase
@@ -48,8 +48,8 @@ export async function unassignSubscription(serverId: string, subscriptionId: str
     }
 
     // Permission check
-    const canEditServer = await checkPermission(serverId, 'can_edit_server')
-    if (!canEditServer) throw new Error("Permission denied")
+    const canManageSub = await checkPermission(serverId, 'can_manage_subscription')
+    if (!canManageSub) throw new Error("Permission denied")
 
     // Verify ownership
     const { data: subscription } = await supabase
