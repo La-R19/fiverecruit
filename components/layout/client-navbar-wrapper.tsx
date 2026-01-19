@@ -10,7 +10,7 @@ export function ClientNavbarVisibility({ children }: { children: React.ReactNode
     // Public pages pattern: /server/[slug]...
     // Dashboard pages pattern: /dashboard/...
 
-    if (pathname?.startsWith('/server/')) {
+    if (pathname?.startsWith('/server/') || pathname?.startsWith('/dashboard')) {
         return null
     }
 
