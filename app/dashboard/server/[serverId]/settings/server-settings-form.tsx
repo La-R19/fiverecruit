@@ -142,6 +142,9 @@ function DeleteServerButton({ serverId }: { serverId: string }) {
         try {
             await deleteServer(serverId)
         } catch (error: any) {
+            if (error.message === 'NEXT_REDIRECT' || error.digest?.startsWith('NEXT_REDIRECT')) {
+                return // Redirecting...
+            }
             alert(error.message)
             setLoading(false)
         }
