@@ -58,7 +58,7 @@ export function DashboardSidebar() {
 
     useEffect(() => {
         if (serverId) {
-            import("@/app/dashboard/server-actions").then(({ getUserPermissions }) => {
+            import("@/app/dashboard/permission-actions").then(({ getUserPermissions }) => {
                 getUserPermissions(serverId).then(setPermissions)
             })
         } else {
