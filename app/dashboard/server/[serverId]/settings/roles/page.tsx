@@ -37,7 +37,8 @@ export default async function RolesPage(props: { params: Promise<{ serverId: str
         )
     }
 
-    const currentPermissions = (server.role_permissions as any)?.manager || DEFAULT_PERMISSIONS.manager
+    const rawPermissions = (server.role_permissions as any)?.manager || {};
+    const currentPermissions = { ...DEFAULT_PERMISSIONS.manager, ...rawPermissions };
 
     return (
         <div className="space-y-8 max-w-3xl mx-auto">

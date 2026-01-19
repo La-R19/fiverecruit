@@ -39,7 +39,8 @@ export default async function MemberPage(props: { params: Promise<{ serverId: st
 
     // Merge Permissions for Initial State
     // Default Role Perms
-    const roleDefaultPerms = (server.role_permissions as any)?.[member.role] || DEFAULT_PERMISSIONS.manager || {}
+    const rawRolePerms = (server.role_permissions as any)?.[member.role] || {};
+    const roleDefaultPerms = { ...(DEFAULT_PERMISSIONS.manager || {}), ...rawRolePerms };
     // Specific Overrides
     const specificPerms = member.specific_permissions as any || {}
 
@@ -67,7 +68,10 @@ export default async function MemberPage(props: { params: Promise<{ serverId: st
                 memberId={memberId}
                 initialData={member}
                 jobs={jobs || []}
-                serverRolePermissions={(server.role_permissions as any) || {}}
+                serverRolePermissions={{
+                    ...((server.role_permissions as any) || {}),
+                    manager: { ...DEFAULT_PERMISSIONS.manager, ...((server.role_permissions as any)?.manager || {}) }
+                }}
             />
         </div>
     )
