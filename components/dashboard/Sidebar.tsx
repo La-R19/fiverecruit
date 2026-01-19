@@ -62,7 +62,7 @@ export function DashboardSidebar() {
         <Sidebar>
             <SidebarHeader className="border-b h-14 flex items-center justify-center">
                 <div className="flex items-center gap-2 font-bold px-4 w-full">
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-black text-white text-xs">F</div>
+                    <img src="/logo.png" alt="FiveRecruit Logo" className="h-6 w-6 object-contain" />
                     <span className="truncate">FiveRecruit</span>
                 </div>
             </SidebarHeader>

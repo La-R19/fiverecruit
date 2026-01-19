@@ -10,7 +10,7 @@ export default function Home() {
       <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 bg-black text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-sm">F</div>
+            <img src="/logo.png" alt="FiveRecruit Logo" className="h-8 w-8 object-contain" />
             <span className="font-bold text-lg tracking-tight">FiveRecruit</span>
           </div>
           <div className="flex gap-3 items-center">
