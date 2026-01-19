@@ -21,7 +21,7 @@ export async function Navbar() {
             <div className="container mx-auto flex h-16 items-center justify-between px-4">
                 <div className="flex items-center gap-2">
                     <Link href="/" className="flex items-center">
-                        <img src="/logo.png" alt="FiveRecruit" className="h-14 w-auto object-contain hover:opacity-90 transition-opacity" />
+                        <img src="/logo.png" alt="FiveRecruit" className="h-20 w-auto object-contain hover:opacity-90 transition-opacity" />
                     </Link>        </div>
 
                 <div className="flex items-center gap-4">
