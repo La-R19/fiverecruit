@@ -9,10 +9,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="FiveRecruit Logo" className="h-8 w-8 object-contain" />
-            <span className="font-bold text-lg tracking-tight">FiveRecruit</span>
-          </div>
+          <img src="/logo.png" alt="FiveRecruit" className="h-12 w-auto object-contain" />
           <div className="flex gap-3 items-center">
             <Link href="/pricing" className="text-sm font-medium text-gray-600 hover:text-black mr-4 hidden md:block">
               Tarifs

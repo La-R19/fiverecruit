@@ -5,9 +5,14 @@ import { Server } from "lucide-react"
 import { useState, useMemo } from "react"
 
 export function ServerCardImage({ src, alt }: { src?: string, alt: string }) {
-    const [error, setError] = useState(false)
+    // If src is clearly empty/null, consider it an error immediately
+    const [error, setError] = useState(!src || src === "")
 
-    // Generate a consistent gradient based on the server name
+    // Reset error state if src prop changes to a valid value
+    useMemo(() => {
+        if (src && src.length > 5) setError(false)
+    }, [src])
+
     const gradient = useMemo(() => {
         const hash = alt.split("").reduce((acc, char) => char.charCodeAt(0) + ((acc << 5) - acc), 0)
         const hue1 = Math.abs(hash % 360)
