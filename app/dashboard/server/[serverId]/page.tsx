@@ -61,6 +61,7 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
     const canEditJobs = await checkPermission(serverId, 'can_edit_jobs')
     const canManageTeam = await checkPermission(serverId, 'can_manage_team')
     const canEditServer = await checkPermission(serverId, 'can_edit_server')
+    const canDeleteJobs = await checkPermission(serverId, 'can_delete_jobs')
 
 
 
@@ -276,7 +277,7 @@ export default async function ServerPage(props: { params: Promise<{ serverId: st
                                                         Modifiez les informations générales de l'offre.
                                                     </DialogDescription>
                                                 </DialogHeader>
-                                                <EditJobForm job={job} serverId={serverId} />
+                                                <EditJobForm job={job} serverId={serverId} canDelete={canDeleteJobs} />
                                             </DialogContent>
                                         </Dialog>
                                     )}

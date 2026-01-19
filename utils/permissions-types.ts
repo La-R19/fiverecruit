@@ -9,7 +9,8 @@ export type PermissionKey =
     | 'can_edit_server'
     | 'can_manage_team'
     | 'can_view_stats'
-    | 'can_manage_subscription';
+    | 'can_manage_subscription'
+    | 'can_delete_server';
 
 export const DEFAULT_PERMISSIONS = {
     manager: {
@@ -22,6 +23,7 @@ export const DEFAULT_PERMISSIONS = {
         can_edit_server: false,
         can_manage_team: false,
         can_view_stats: true,
-        can_manage_subscription: false
+        can_manage_subscription: false,
+        can_delete_server: false
     }
 };

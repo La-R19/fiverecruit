@@ -28,6 +28,7 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
     // Security Check
     const { checkPermission } = await import("@/utils/permissions")
     const canEdit = await checkPermission(serverId, 'can_edit_server')
+    const canDelete = await checkPermission(serverId, 'can_delete_server')
 
     if (!canEdit) {
         return (
@@ -67,7 +68,7 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
 
             <div className="bg-white rounded-xl shadow-sm border p-6">
                 <h2 className="text-lg font-semibold mb-4">Informations Générales</h2>
-                <ServerSettingsForm server={server} />
+                <ServerSettingsForm server={server} canDelete={canDelete} />
             </div>
         </div>
     )

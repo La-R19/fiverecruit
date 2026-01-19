@@ -22,7 +22,8 @@ const PERMISSION_LABELS: Record<string, string> = {
     can_edit_server: "Modifier le serveur",
     can_manage_team: "Gérer l'équipe",
     can_view_stats: "Voir les stats",
-    can_manage_subscription: "Gérer l'abonnement"
+    can_manage_subscription: "Gérer l'abonnement",
+    can_delete_server: "Supprimer le serveur"
 };
 
 export function MemberEditForm({ serverId, memberId, initialData, jobs, serverRolePermissions }: any) {

@@ -124,3 +124,29 @@ export async function updateJob(jobId: string, serverId: string, prevState: any,
     revalidatePath(`/dashboard/server/${serverId}`)
     return { message: null, success: true }
 }
+
+export async function deleteJob(jobId: string, serverId: string) {
+    const supabase = await createClient()
+
+    // Permission Check
+    const { checkPermission } = await import("@/utils/permissions")
+    // can_delete_jobs is the specific permission, but can_edit_jobs often implies it if not separate. 
+    // We have 'can_delete_jobs' in types, so use it.
+    const canDelete = await checkPermission(serverId, 'can_delete_jobs')
+
+    if (!canDelete) {
+        throw new Error("Permission refusée")
+    }
+
+    const { error } = await supabase
+        .from('jobs')
+        .delete()
+        .eq('id', jobId)
+
+    if (error) {
+        console.error(error)
+        throw new Error("Erreur de suppression")
+    }
+
+    revalidatePath(`/dashboard/server/${serverId}`)
+}

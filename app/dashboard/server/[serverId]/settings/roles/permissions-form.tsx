@@ -24,7 +24,8 @@ const PERMISSION_LABELS: Record<string, string> = {
     can_edit_server: "Modifier les infos du serveur",
     can_manage_team: "Gérer l'équipe (inviter/exclure)",
     can_view_stats: "Voir les statistiques",
-    can_manage_subscription: "Gérer l'abonnement (paiements, factures)"
+    can_manage_subscription: "Gérer l'abonnement (paiements, factures)",
+    can_delete_server: "Supprimer le serveur (⚠️ Zone de danger)"
 };
 
 export function PermissionsForm({ serverId, initialPermissions }: PermissionsFormProps) {

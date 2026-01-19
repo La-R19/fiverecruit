@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -7,13 +6,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { updateServer } from "./actions"
+import { deleteServer } from "./delete-server-action"
 import { useRouter } from "next/navigation"
 
-export function ServerSettingsForm({ server }: { server: any }) {
+export function ServerSettingsForm({ server, canDelete = false }: { server: any, canDelete?: boolean }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    // Simple state management (could use React Hook Form + Zod, but keeping it light for MVP)
+    // Simple state management
     const [formData, setFormData] = useState({
         name: server.name || '',
         slug: server.slug || '',
@@ -42,75 +42,114 @@ export function ServerSettingsForm({ server }: { server: any }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-                <Label htmlFor="name">Nom du Serveur</Label>
-                <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Ex: MyRP Server"
-                />
-            </div>
-
-            <div className="space-y-2">
-                <Label htmlFor="slug">URL Publique (Slug)</Label>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground bg-gray-50 px-3 py-2 rounded-md border">
-                    <span>fiverecruit.com/server/</span>
-                    <input
-                        className="bg-transparent border-none focus:outline-none flex-1 font-medium text-black"
-                        id="slug"
-                        name="slug"
-                        value={formData.slug}
+        <>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                    <Label htmlFor="name">Nom du Serveur</Label>
+                    <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
                         required
+                        placeholder="Ex: MyRP Server"
                     />
                 </div>
-                <p className="text-xs text-muted-foreground">Identifiant unique pour votre page publique.</p>
-            </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows={4}
-                    placeholder="Décrivez votre serveur..."
-                />
-            </div>
+                <div className="space-y-2">
+                    <Label htmlFor="slug">URL Publique (Slug)</Label>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-gray-50 px-3 py-2 rounded-md border">
+                        <span>fiverecruit.com/server/</span>
+                        <input
+                            className="bg-transparent border-none focus:outline-none flex-1 font-medium text-black"
+                            id="slug"
+                            name="slug"
+                            value={formData.slug}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <p className="text-xs text-muted-foreground">Identifiant unique pour votre page publique.</p>
+                </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="cover_image_url">Image de couverture (URL)</Label>
-                <Input
-                    id="cover_image_url"
-                    name="cover_image_url"
-                    value={formData.cover_image_url}
-                    onChange={handleChange}
-                    placeholder="https://..."
-                />
-                <p className="text-xs text-muted-foreground">Lien direct vers une image (jpg, png).</p>
-            </div>
+                <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                        id="description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        rows={4}
+                        placeholder="Décrivez votre serveur..."
+                    />
+                </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="discord_invite_url">Lien Discord</Label>
-                <Input
-                    id="discord_invite_url"
-                    name="discord_invite_url"
-                    value={formData.discord_invite_url}
-                    onChange={handleChange}
-                    placeholder="https://discord.gg/..."
-                />
-            </div>
+                <div className="space-y-2">
+                    <Label htmlFor="cover_image_url">Image de couverture (URL)</Label>
+                    <Input
+                        id="cover_image_url"
+                        name="cover_image_url"
+                        value={formData.cover_image_url}
+                        onChange={handleChange}
+                        placeholder="https://..."
+                    />
+                    <p className="text-xs text-muted-foreground">Lien direct vers une image (jpg, png).</p>
+                </div>
 
-            <div className="pt-4 flex justify-end">
-                <Button type="submit" disabled={loading}>
-                    {loading ? 'Sauvegarde...' : 'Enregistrer les modifications'}
-                </Button>
-            </div>
-        </form>
+                <div className="space-y-2">
+                    <Label htmlFor="discord_invite_url">Lien Discord</Label>
+                    <Input
+                        id="discord_invite_url"
+                        name="discord_invite_url"
+                        value={formData.discord_invite_url}
+                        onChange={handleChange}
+                        placeholder="https://discord.gg/..."
+                    />
+                </div>
+
+                <div className="pt-4 flex justify-end">
+                    <Button type="submit" disabled={loading}>
+                        {loading ? 'Sauvegarde...' : 'Enregistrer les modifications'}
+                    </Button>
+                </div>
+            </form>
+
+            {canDelete && (
+                <div className="mt-12 pt-8 border-t border-red-100">
+                    <div className="bg-red-50/50 border border-red-200 rounded-xl p-6">
+                        <h3 className="text-lg font-semibold text-red-900 mb-2">Zone de Danger</h3>
+                        <p className="text-sm text-red-700 mb-6">
+                            La suppression d'un serveur est irréversible. Toutes les données (candidatures, membres, configurations) seront effacées.
+                            <br />
+                            <strong>Note :</strong> Si une licence active est liée à ce serveur, elle sera automatiquement détachée et retournée dans votre inventaire pour être réutilisée.
+                        </p>
+
+                        <DeleteServerButton serverId={server.id} />
+                    </div>
+                </div>
+            )}
+        </>
+    )
+}
+
+function DeleteServerButton({ serverId }: { serverId: string }) {
+    const [loading, setLoading] = useState(false)
+
+    const handleDelete = async () => {
+        if (!confirm("⚠️ ATTENTION : Êtes-vous sûr de vouloir supprimer ce serveur ?\n\nCette action est irréversible.\nVotre licence sera sauvegardée.")) return
+
+        setLoading(true)
+        try {
+            await deleteServer(serverId)
+        } catch (error: any) {
+            alert(error.message)
+            setLoading(false)
+        }
+    }
+
+    return (
+        <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+            {loading ? "Suppression..." : "Supprimer ce serveur définitivement"}
+        </Button>
     )
 }
