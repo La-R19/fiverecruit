@@ -15,7 +15,7 @@ export default function Home() {
 
       {/* Navbar */}
       <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
-        <div className="container mx-auto px-6 h-24 flex items-center justify-between">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
             <img src="/logo.png" alt="FiveRecruit" className="h-20 w-auto object-contain" />
           </Link>
