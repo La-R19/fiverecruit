@@ -39,15 +39,15 @@ export async function deleteServer(serverId: string) {
     }
 
     // 2b. Detach License (FiveM Key)
-    // This was causing the FK violation: licenses_server_id_fkey
-    const { error: licenseError } = await supabase
-        .from('licenses')
-        .update({ server_id: null })
-        .eq('server_id', serverId)
+    // We use a secure RPC function because standard UPDATE RLS might block if user is not super-admin enough
+    const { error: licenseError } = await supabase.rpc('detach_server_license', {
+        target_server_id: serverId
+    })
 
     if (licenseError) {
-        console.error("Failed to detach license", licenseError)
-        throw new Error("Erreur lors de la libération de la licence FiveM.")
+        console.error("Failed to detach license via RPC", licenseError)
+        // If RPC failed (e.g. doesn't exist), we might want to stop to avoid FK error.
+        throw new Error("Erreur lors de la libération de la licence FiveM (RPC).")
     }
 
     // 3. Delete Server
