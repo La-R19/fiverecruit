@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useParams } from "next/navigation"
+import { useState, useEffect } from "react"
 import {
     LayoutDashboard,
     Settings,
@@ -50,8 +51,20 @@ export function DashboardSidebar() {
     const router = useRouter()
     const supabase = createClient()
 
+    const [permissions, setPermissions] = useState<{ canEditServer: boolean; canManageSubscription: boolean } | null>(null)
+
     // Extract serverId safely
     const serverId = params?.serverId as string | undefined
+
+    useEffect(() => {
+        if (serverId) {
+            import("@/app/dashboard/server-actions").then(({ getUserPermissions }) => {
+                getUserPermissions(serverId).then(setPermissions)
+            })
+        } else {
+            setPermissions(null)
+        }
+    }, [serverId])
 
     const handleSignOut = async () => {
         await supabase.auth.signOut()
@@ -119,24 +132,28 @@ export function DashboardSidebar() {
 
 
 
-                                <SidebarMenuItem>
-                                    <SidebarMenuButton asChild isActive={pathname?.includes('/settings')}>
-                                        <Link href={`/dashboard/server/${serverId}/settings`}>
-                                            <Settings />
-                                            <span>Paramètres</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                                <SidebarMenuItem>
-                                    <SidebarMenuButton asChild isActive={pathname?.includes('/subscription')}>
-                                        <Link href={`/dashboard/server/${serverId}/subscription`}>
-                                            <span className="flex items-center gap-2">
-                                                <Crown className="h-4 w-4" />
-                                                <span>Abonnement</span>
-                                            </span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                {permissions?.canEditServer && (
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton asChild isActive={pathname?.includes('/settings')}>
+                                            <Link href={`/dashboard/server/${serverId}/settings`}>
+                                                <Settings />
+                                                <span>Paramètres</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )}
+                                {permissions?.canManageSubscription && (
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton asChild isActive={pathname?.includes('/subscription')}>
+                                            <Link href={`/dashboard/server/${serverId}/subscription`}>
+                                                <span className="flex items-center gap-2">
+                                                    <Crown className="h-4 w-4" />
+                                                    <span>Abonnement</span>
+                                                </span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )}
 
                             </SidebarMenu>
                         </SidebarGroupContent>

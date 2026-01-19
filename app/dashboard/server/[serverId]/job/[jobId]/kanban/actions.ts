@@ -6,12 +6,14 @@ import { createClient } from "@/utils/supabase/server"
 export async function updateApplicationStatus(appId: string, status: string) {
     const supabase = await createClient()
 
-    const { error } = await supabase
+    const { error, data } = await supabase
         .from('applications')
         .update({ status })
         .eq('id', appId)
+        .select()
 
     if (error) throw new Error("Update failed")
+    if (!data || data.length === 0) throw new Error("Permission denied or not found")
 }
 
 export async function deleteApplication(appId: string) {
