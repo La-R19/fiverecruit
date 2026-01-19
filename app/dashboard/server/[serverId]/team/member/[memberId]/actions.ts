@@ -40,7 +40,10 @@ export async function updateMember(serverId: string, memberId: string, data: {
 
     if (error) {
         console.error("RPC Error:", error)
-        throw new Error("Failed to update member: " + error.message)
+        if (error.code === '23503') {
+            throw new Error("Le poste sélectionné pour la restriction n'existe plus (ou a été supprimé). Veuillez rafraîchir la page.")
+        }
+        throw new Error("Erreur de sauvegarde : " + error.message)
     }
 
     if (!rpcResult || !rpcResult.success) {
