@@ -40,7 +40,6 @@ export default async function PricingPage() {
                 <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto px-4 md:px-0">
                     {/* STANDARD PLAN */}
                     <div className="bg-white rounded-[2.5rem] p-10 border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col relative group">
-                        <div className="absolute top-0 left-0 w-full h-2 bg-gray-100 group-hover:bg-gray-200 transition-colors"></div>
 
                         <div className="mb-8">
                             <h3 className="text-3xl font-bold mb-2">Standard</h3>
