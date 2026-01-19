@@ -1,338 +1,240 @@
+'use client'
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ShieldCheck, FileText, Users, Zap, Layout, ArrowRight, CheckCircle2, MoreHorizontal, Search, Bell } from "lucide-react"
+import { ShieldCheck, FileText, Users, Zap, Layout, ArrowRight, CheckCircle2, MessageSquare, Bot, Crown, Sparkles, ChevronRight } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-[#1D1D1F] overflow-x-hidden font-sans selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans selection:bg-indigo-500 selection:text-white">
 
-      {/* Navbar */}
-      <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <img src="/logo.png" alt="FiveRecruit" className="h-32 w-auto object-contain" />
-          <div className="flex gap-3 items-center">
-            <Link href="/pricing" className="text-sm font-medium text-gray-600 hover:text-black mr-4 hidden md:block">
+      {/* Navbar Overlay */}
+      <nav className="fixed top-0 z-50 w-full bg-black/50 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="FiveRecruit" className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-300" />
+            {/* Logo text removed as requested, just the icon usually implies brand, but we can keep text hidden or minimal if needed. 
+                User asked to remove text previously. */}
+          </div>
+          <div className="flex gap-4 items-center">
+            <Link href="/pricing" className="text-sm font-medium text-gray-400 hover:text-white transition-colors hidden md:block">
               Tarifs
             </Link>
             <Link href="/login">
-              <Button variant="ghost" className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-5 font-medium">
+              <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-full px-6">
                 Connexion
               </Button>
             </Link>
             <Link href="/login">
-              <Button className="bg-black text-white hover:bg-gray-800 rounded-full px-5 shadow-lg shadow-black/20 hover:shadow-xl hover:scale-105 transition-all duration-300">
+              <Button className="bg-white text-black hover:bg-gray-200 rounded-full px-6 font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all duration-300">
                 S'inscrire
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-32 md:pt-48 md:pb-48 px-6 flex flex-col items-center text-center relative overflow-hidden">
-        {/* Subtle Gradient Background */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white opacity-70"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-br from-indigo-100/40 to-purple-100/40 rounded-full blur-[100px] -z-10"></div>
+      {/* Hero Section with 3D Effect */}
+      <section className="relative pt-40 pb-32 md:pt-52 md:pb-48 px-6 flex flex-col items-center text-center overflow-hidden perspective-1000">
 
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.1)] text-xs font-semibold text-gray-600 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <span className="flex h-2 w-2 rounded-full bg-indigo-500"></span>
-          v1.0 disponible maintenant
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-black to-black"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] -z-10 animate-pulse duration-[5000ms]"></div>
+
+        {/* Animated Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl text-xs font-semibold text-indigo-300 mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 border-t-indigo-500/50">
+          <Sparkles className="h-3 w-3 fill-indigo-300" />
+          <span className="tracking-in-expand">La solution ultime pour FiveM</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 leading-[1.05] max-w-5xl mx-auto text-black drop-shadow-sm">
-          Le recrutement FiveM <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">réinventé.</span>
+        <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[1.1] max-w-5xl mx-auto text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-gray-500 drop-shadow-2xl animate-in fade-in zoom-in-50 duration-1000 slide-in-from-bottom-10">
+          Recrutez <br />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">sans limites.</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10 font-medium text-balance">
-          Créez des formulaires immersifs, gérez vos équipes et suivez chaque candidature avec une précision chirurgicale.
+        <p className="text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-12 font-medium text-balance animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
+          Automatisez vos candidatures, synchronisez avec Discord et gérez votre staff avec une interface futuriste conçue pour l'élite.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-32 relative z-20">
-          <Link href="/login">
-            <Button size="lg" className="h-14 px-10 rounded-full text-lg bg-black text-white hover:bg-gray-800 hover:scale-105 transition-all shadow-xl shadow-indigo-500/20">
-              Commencer gratuitement
-              <ArrowRight className="ml-2 w-5 h-5" />
+        <div className="flex flex-col sm:flex-row gap-4 items-center animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300">
+          <Link href="/dashboard">
+            <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-[0_0_40px_-10px_rgba(99,102,241,0.5)] border border-indigo-400/30">
+              Commencer maintenant
+              <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
           <Link href="#features">
-            <Button size="lg" variant="outline" className="h-14 px-10 rounded-full text-lg border-gray-200 bg-white text-black hover:bg-gray-50 transition-all hover:border-gray-300 shadow-sm">
-              Voir la démo
+            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-white/20 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm">
+              Découvrir les fonctionnalités
             </Button>
           </Link>
         </div>
 
-        {/* REALISTIC 3D DASHBOARD PREVIEW */}
-        <div className="relative max-w-6xl mx-auto w-full group perspective-1200 px-4">
-          <div className="relative rounded-2xl overflow-hidden bg-white shadow-[0_50px_100px_-20px_rgba(50,50,93,0.15),0_30px_60px_-30px_rgba(0,0,0,0.2)] border border-gray-200/60 transform transition-transform duration-1000 group-hover:rotate-x-2 group-hover:scale-[1.01] rotate-x-6" style={{ transformStyle: "preserve-3d" }}>
-
-            {/* Browser/Window Controls */}
-            <div className="w-full h-10 bg-[#FAFAFA] border-b border-gray-200 flex items-center px-4 gap-2">
+        {/* 3D Dashboard Mockup Effect */}
+        <div className="mt-24 relative w-full max-w-5xl mx-auto group perspective-1000 animate-in fade-in slide-in-from-bottom-24 duration-1000 delay-500">
+          <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl shadow-2xl overflow-hidden transform transition-transform duration-700 hover:rotate-x-2 hover:scale-[1.01]">
+            {/* Abstract UI Representation */}
+            <div className="p-4 border-b border-white/10 flex items-center gap-4 bg-white/5">
               <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F57] border border-[#E0443E]" />
-                <div className="w-3 h-3 rounded-full bg-[#FEBC2E] border border-[#D89E24]" />
-                <div className="w-3 h-3 rounded-full bg-[#28C840] border border-[#1AAB29]" />
+                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
               </div>
-              <div className="flex-1 text-center">
-                <div className="inline-flex items-center gap-2 bg-gray-200/50 px-3 py-1 rounded-md text-[10px] text-gray-500 font-medium">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  app.fiverecruit.com
-                </div>
-              </div>
-              <div className="w-16" /> {/* Spacer */}
+              <div className="h-6 w-96 rounded-full bg-white/5 mx-auto"></div>
             </div>
-
-            {/* MOCK UI CONTENT */}
-            <div className="flex h-[600px] w-full bg-[#F5F7FA] text-left">
-
-              {/* Sidebar */}
-              <div className="w-20 lg:w-64 bg-white border-r border-gray-100 flex flex-col p-4 hidden md:flex">
-                <div className="flex items-center gap-3 mb-10 px-2">
-                  <div className="h-10 w-10 bg-black rounded-xl flex items-center justify-center shadow-md">
-                    <span className="text-white font-bold">P</span>
-                  </div>
-                  <span className="font-bold text-sm hidden lg:block text-gray-900">Premium Server</span>
+            <div className="aspect-video bg-[#0f0f11] flex items-center justify-center relative">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+              <div className="grid grid-cols-3 gap-8 p-12 w-full h-full items-center opacity-80">
+                {/* Fake Cards */}
+                <div className="aspect-[4/3] rounded-xl bg-white/5 border border-white/10 p-6 flex flex-col gap-4 animate-pulse">
+                  <div className="w-12 h-12 rounded-full bg-indigo-500/20"></div>
+                  <div className="w-3/4 h-4 rounded bg-white/10"></div>
+                  <div className="w-1/2 h-4 rounded bg-white/10"></div>
                 </div>
-                <div className="space-y-1">
-                  <div className="px-3 py-2.5 bg-gray-900 rounded-xl text-sm font-medium text-white flex items-center gap-3 shadow-lg shadow-gray-900/10">
-                    <Layout className="w-5 h-5" /> <span className="hidden lg:block">Dashboard</span>
-                  </div>
-                  <div className="px-3 py-2.5 hover:bg-gray-50 rounded-xl text-sm font-medium text-gray-500 flex items-center gap-3 transition-colors">
-                    <FileText className="w-5 h-5" /> <span className="hidden lg:block">Formulaires</span>
-                  </div>
-                  <div className="px-3 py-2.5 hover:bg-gray-50 rounded-xl text-sm font-medium text-gray-500 flex items-center gap-3 transition-colors">
-                    <Users className="w-5 h-5" /> <span className="hidden lg:block">Candidats</span>
-                    <span className="ml-auto bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full hidden lg:block">12</span>
-                  </div>
-                  <div className="px-3 py-2.5 hover:bg-gray-50 rounded-xl text-sm font-medium text-gray-500 flex items-center gap-3 transition-colors">
-                    <Zap className="w-5 h-5" /> <span className="hidden lg:block">Paramètres</span>
-                  </div>
+                <div className="aspect-[4/3] rounded-xl bg-white/5 border border-white/10 p-6 flex flex-col gap-4 scale-110 shadow-2xl bg-white/10 z-10">
+                  <div className="w-12 h-12 rounded-full bg-purple-500/20"></div>
+                  <div className="w-3/4 h-4 rounded bg-white/20"></div>
+                  <div className="w-full h-24 rounded bg-gradient-to-br from-indigo-500/20 to-purple-500/20"></div>
                 </div>
-              </div>
-
-              {/* Main Content (Kanban) */}
-              <div className="flex-1 flex flex-col min-w-0">
-                {/* Topbar */}
-                <div className="h-20 border-b border-gray-100 bg-white flex items-center justify-between px-8">
-                  <div>
-                    <h2 className="font-bold text-xl text-gray-900">Recrutement: LSPD</h2>
-                    <p className="text-xs text-gray-400 mt-0.5">Pipeline actif</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex -space-x-2">
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 border-2 border-white"></div>
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border-2 border-white"></div>
-                      <div className="w-9 h-9 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-600">+3</div>
-                    </div>
-                    <Button size="sm" className="bg-black text-white rounded-full px-6 h-9 hover:bg-gray-800 transition-colors shadow-lg shadow-black/10">
-                      Inviter
-                    </Button>
-                  </div>
+                <div className="aspect-[4/3] rounded-xl bg-white/5 border border-white/10 p-6 flex flex-col gap-4 animate-pulse delay-75">
+                  <div className="w-12 h-12 rounded-full bg-pink-500/20"></div>
+                  <div className="w-3/4 h-4 rounded bg-white/10"></div>
+                  <div className="w-1/2 h-4 rounded bg-white/10"></div>
                 </div>
-
-                {/* Kanban Board */}
-                <div className="flex-1 p-8 overflow-x-auto overflow-y-hidden">
-                  <div className="flex gap-8 h-full min-w-max">
-
-                    {/* Column 1 */}
-                    <div className="w-80 flex flex-col gap-5">
-                      <div className="flex items-center justify-between mb-2 px-1">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-orange-400"></div>
-                          <span className="font-semibold text-sm text-gray-700">Nouvelles</span>
-                          <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full text-xs font-medium">2</span>
-                        </div>
-                        <MoreHorizontal className="w-4 h-4 text-gray-400 cursor-pointer" />
-                      </div>
-
-                      {/* Card 1 */}
-                      <div className="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_8px_16px_-4px_rgba(0,0,0,0.08)] transition-all cursor-pointer group/card hover:-translate-y-1">
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-600 font-bold text-sm">TD</div>
-                          <span className="text-[10px] bg-orange-50 text-orange-600 border border-orange-100 px-2.5 py-1 rounded-full font-semibold">En attente</span>
-                        </div>
-                        <h4 className="font-bold text-base text-gray-900 mb-1">Thomas Dubreuil</h4>
-                        <p className="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">"Je suis motivé pour rejoindre vos effectifs, fort de 3 ans d'expérience..."</p>
-                        <div className="flex items-center gap-3 pt-4 border-t border-gray-50">
-                          <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
-                            <FileText className="w-3.5 h-3.5" /> CV.pdf
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Card 2 */}
-                      <div className="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100 opacity-70 hover:opacity-100 transition-all cursor-pointer">
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-sm">MR</div>
-                          <span className="text-[10px] bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full font-semibold">Nouveau</span>
-                        </div>
-                        <h4 className="font-bold text-base text-gray-900 mb-1">Maxime R.</h4>
-                        <p className="text-xs text-gray-500">Ancien EMS sur serveur whitelist, disponible le soir.</p>
-                      </div>
-                    </div>
-
-                    {/* Column 2 */}
-                    <div className="w-80 flex flex-col gap-5">
-                      <div className="flex items-center justify-between mb-2 px-1">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-                          <span className="font-semibold text-sm text-gray-700">En Entretien</span>
-                          <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full text-xs font-medium">1</span>
-                        </div>
-                        <MoreHorizontal className="w-4 h-4 text-gray-400 cursor-pointer" />
-                      </div>
-
-                      <div className="bg-white p-5 rounded-2xl shadow-[0_4px_12px_-2px_rgba(99,102,241,0.1)] border border-indigo-100 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
-                        <div className="flex justify-between items-start mb-4 pl-2">
-                          <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border border-gray-200">
-                            {/* Avatar Placeholder */}
-                          </div>
-                          <span className="text-[10px] bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
-                            Aujourd'hui 14h
-                          </span>
-                        </div>
-                        <div className="pl-2">
-                          <h4 className="font-bold text-base text-gray-900 mb-1">Sarah Connor</h4>
-                          <p className="text-xs text-gray-500 mb-4">Entretien Discord planifié avec les officiers supérieurs.</p>
-                          <div className="flex -space-x-2">
-                            <div className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white text-[8px] flex items-center justify-center font-bold text-gray-500">O1</div>
-                            <div className="w-6 h-6 rounded-full bg-gray-300 border-2 border-white text-[8px] flex items-center justify-center font-bold text-gray-600">LT</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Column 3 */}
-                    <div className="w-80 flex flex-col gap-5">
-                      <div className="flex items-center justify-between mb-2 px-1">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                          <span className="font-semibold text-sm text-gray-700">Acceptés</span>
-                          <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full text-xs font-medium">5</span>
-                        </div>
-                        <MoreHorizontal className="w-4 h-4 text-gray-400 cursor-pointer" />
-                      </div>
-
-                      <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 opacity-90">
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-600 font-bold text-sm">JK</div>
-                          <span className="text-[10px] bg-green-50 text-green-600 border border-green-100 px-2.5 py-1 rounded-full font-semibold">Validé</span>
-                        </div>
-                        <h4 className="font-bold text-base text-gray-900 mb-1">Jean Kevin</h4>
-                        <p className="text-xs text-gray-500">Assigné: Officier I</p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating Notification */}
-          <div className="absolute -right-2 md:-right-8 top-24 bg-white p-5 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100 animate-in fade-in slide-in-from-right-8 duration-1000 delay-500 hidden lg:block max-w-sm z-30">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-green-100 rounded-full flex-shrink-0 flex items-center justify-center">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm text-gray-900 mb-1">Candidature Acceptée</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  La candidature de <span className="font-medium text-gray-700">Jean Kevin</span> a été validée par l'équipe LSPD.
-                </p>
-                <p className="text-[10px] text-gray-400 mt-2 font-medium">Il y a 2 min • via Discord Bot</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Grid with Apple Style */}
-      <section id="features" className="py-32 bg-[#F5F5F7]">
+      {/* Bento Grid Features */}
+      <section id="features" className="py-32 relative bg-black">
         <div className="container mx-auto px-6">
-          <div className="mb-20 max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl font-semibold tracking-tight text-black mb-4">Puissance et Simplicité.</h2>
-            <p className="text-xl text-gray-500">Tout ce dont vous avez besoin pour gérer votre communauté, sans la complexité.</p>
-          </div>
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-20 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Pourquoi l'élite nous choisit ?</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* BENTO GRID ITEMS */}
-            <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
-                <FileText className="w-7 h-7 text-indigo-600" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Form Builder</h3>
-              <p className="text-gray-500 leading-relaxed">Glissez-déposez vos questions. Textes, choix multiples, uploads... Créez le formulaire parfait en quelques secondes.</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 max-w-6xl mx-auto h-[1200px] md:h-[800px]">
 
-            <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
-                <Layout className="w-7 h-7 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Vue Kanban</h3>
-              <p className="text-gray-500 leading-relaxed">Arrêtez de jongler avec les channels Discord. Visualisez votre pipeline de recrutement global.</p>
-            </div>
-
-            <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
-                <ShieldCheck className="w-7 h-7 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Auth Sécurisée</h3>
-              <p className="text-gray-500 leading-relaxed">Liez les candidatures aux comptes Discord réels. Évitez les trolls et les doubles comptes.</p>
-            </div>
-
-            <div className="col-span-1 md:col-span-3 bg-black text-white rounded-[2rem] p-10 md:p-16 relative overflow-hidden group">
-              <div className="relative z-10 max-w-2xl">
-                <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8">
-                  <Zap className="w-8 h-8 text-yellow-400" />
+            {/* Major Feature 1: Bot Discord */}
+            <div className="md:col-span-2 md:row-span-2 group relative rounded-3xl border border-white/10 bg-[#0a0a0a] overflow-hidden hover:border-indigo-500/50 transition-colors duration-500">
+              <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="p-10 h-full flex flex-col justify-between relative z-10">
+                <div>
+                  <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 flex items-center justify-center mb-6 border border-indigo-500/30 text-indigo-400">
+                    <Bot className="h-7 w-7" />
+                  </div>
+                  <h3 className="text-3xl font-bold mb-4">Bot Discord Intelligent</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                    Ne gérez plus jamais vos tickets à la main. Notre bot synchronise automatiquement les candidatures, notifie les recruteurs et gère les rôles directement depuis Discord.
+                  </p>
+                  <ul className="mt-8 space-y-3 text-gray-300">
+                    <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-500" /> Synchronisation temps réel</li>
+                    <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-500" /> Notifications instantanées</li>
+                    <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-500" /> Commande /apply intégrée</li>
+                  </ul>
                 </div>
-                <h3 className="text-4xl font-bold mb-6">Votre vitrine publique.</h3>
-                <p className="text-gray-400 text-xl leading-relaxed mb-8">
-                  Chaque serveur obtient une page publique dédiée, référencée et optimisée pour le SEO.
-                  Partagez un seul lien, attirez les meilleurs talents.
-                </p>
-                <Link href="/login">
-                  <span className="inline-flex items-center text-white font-semibold hover:underline cursor-pointer">
-                    Voir un exemple <ArrowRight className="ml-2 w-4 h-4" />
-                  </span>
-                </Link>
+                <div className="mt-8 rounded-xl bg-[#1a1a1e] border border-white/5 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-xl">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-indigo-600"></div>
+                    <div className="bg-[#2f3136] rounded px-3 py-1 text-xs text-gray-300">Nouvelle candidature de @Voltre !</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-600"></div>
+                    <div className="bg-indigo-500/20 border border-indigo-500/30 text-indigo-200 rounded px-3 py-1 text-xs">Candidature acceptée ✅</div>
+                  </div>
+                </div>
               </div>
-              <div className="absolute right-0 bottom-0 w-96 h-96 bg-gradient-to-tl from-indigo-600 to-purple-600 opacity-20 rounded-full blur-[100px] pointer-events-none group-hover:opacity-30 transition-opacity" />
+            </div>
+
+            {/* Feature 2: Kanban */}
+            <div className="group relative rounded-3xl border border-white/10 bg-[#0a0a0a] overflow-hidden hover:border-purple-500/50 transition-colors duration-500">
+              <div className="p-8 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4 border border-purple-500/30 text-purple-400">
+                  <Layout className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Kanban Drag & Drop</h3>
+                <p className="text-gray-400 text-sm">Organisez visuellement votre recrutement. Glissez-déposez les candidats comme sur Trello.</p>
+              </div>
+            </div>
+
+            {/* Feature 3: Custom Forms */}
+            <div className="group relative rounded-3xl border border-white/10 bg-[#0a0a0a] overflow-hidden hover:border-pink-500/50 transition-colors duration-500">
+              <div className="p-8 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center mb-4 border border-pink-500/30 text-pink-400">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Formulaires 100% Custom</h3>
+                <p className="text-gray-400 text-sm">Questions texte, choix multiples, fichiers... Créez le formulaire parfait pour vos besoins.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section (Glass/Dark) */}
+      <section className="py-32 relative overflow-hidden">
+        {/* Abstract Background for Pricing */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black to-indigo-950/20 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-6">Investissez dans la <span className="text-indigo-400">qualité</span></h2>
+          <p className="text-gray-400 text-center max-w-xl mx-auto mb-20 text-lg">Rejoignez des centaines de serveurs qui ont professionnalisé leur recrutement.</p>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Standard Plan */}
+            <div className="rounded-3xl p-8 border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300">
+              <h3 className="text-2xl font-bold text-gray-200">Standard</h3>
+              <div className="flex items-baseline mt-4 mb-6">
+                <span className="text-4xl font-bold">9.90€</span>
+                <span className="text-gray-500 ml-2">/mois</span>
+              </div>
+              <ul className="space-y-4 mb-8 text-gray-300">
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-gray-500" /> 5 Jobs actifs</li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-gray-500" /> Candidatures illimitées</li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-gray-500" /> Bot Discord Essentiel</li>
+              </ul>
+              <Link href="/pricing">
+                <Button className="w-full h-12 rounded-xl bg-white text-black hover:bg-gray-200 font-bold">Choisir Standard</Button>
+              </Link>
+            </div>
+
+            {/* Premium Plan */}
+            <div className="relative rounded-3xl p-8 border border-indigo-500/50 bg-gradient-to-b from-indigo-900/20 to-black overflow-hidden transform md:scale-105 shadow-2xl">
+              <div className="absolute top-0 right-0 bg-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-bl-xl">POPULAIRE</div>
+              <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                Premium <Crown className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+              </h3>
+              <div className="flex items-baseline mt-4 mb-6">
+                <span className="text-5xl font-black text-white">19.90€</span>
+                <span className="text-indigo-300 ml-2">/mois</span>
+              </div>
+              <ul className="space-y-4 mb-8 text-indigo-100">
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-400" /> Jobs <span className="font-bold text-white">ILLIMITÉS</span></li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-400" /> Support Prioritaire 24/7</li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-400" /> Bot Discord <span className="font-bold text-white">AVANCÉ</span></li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="h-5 w-5 text-indigo-400" /> Accès API (Roadmap)</li>
+              </ul>
+              <Link href="/pricing">
+                <Button className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-[0_0_20px_rgba(79,70,229,0.4)]">Passer au niveau supérieur</Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Start Now */}
-      <section className="py-32 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-black mb-8">
-            Le recrutement commence ici.
-          </h2>
-          <p className="text-xl text-gray-500 mb-12">
-            Rejoignez des centaines de communautés qui font confiance à FiveRecruit.
-          </p>
-          <Link href="/login">
-            <Button size="lg" className="h-16 px-12 rounded-full text-xl bg-black text-white hover:bg-gray-800 shadow-2xl hover:scale-105 transition-all w-full md:w-auto">
-              Créer mon compte
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      <footer className="py-12 bg-white border-t border-gray-100">
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 bg-black">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-            <div className="h-6 w-6 bg-black text-white rounded-md flex items-center justify-center text-xs font-bold">F</div>
-            <span className="font-semibold text-sm">FiveRecruit</span>
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="FiveRecruit" className="h-8 w-auto opacity-50 grayscale hover:grayscale-0 transition-all" />
+            <span className="text-gray-500 font-semibold">FiveRecruit &copy; 2026</span>
           </div>
-          <p className="text-sm text-gray-400">© 2026 FiveRecruit. All rights reserved.</p>
-          <div className="flex gap-8 text-sm text-gray-500 font-medium">
-            <Link href="#" className="hover:text-black transition-colors">Twitter</Link>
-            <Link href="#" className="hover:text-black transition-colors">Discord</Link>
-            <Link href="#" className="hover:text-black transition-colors">Contact</Link>
+          <div className="flex gap-8 text-sm text-gray-500">
+            <Link href="#" className="hover:text-white transition-colors">Mentions Légales</Link>
+            <Link href="#" className="hover:text-white transition-colors">CGV</Link>
+            <Link href="#" className="hover:text-white transition-colors">Discord</Link>
           </div>
         </div>
       </footer>
