@@ -9,7 +9,7 @@ import { updateServer } from "./actions"
 import { deleteServer } from "./delete-server-action"
 import { useRouter } from "next/navigation"
 
-export function ServerSettingsForm({ server, canDelete = false }: { server: any, canDelete?: boolean }) {
+export function ServerSettingsForm({ server, canDelete = false, canEdit = true }: { server: any, canDelete?: boolean, canEdit?: boolean }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
@@ -53,12 +53,13 @@ export function ServerSettingsForm({ server, canDelete = false }: { server: any,
                         onChange={handleChange}
                         required
                         placeholder="Ex: MyRP Server"
+                        disabled={!canEdit}
                     />
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="slug">URL Publique (Slug)</Label>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-gray-50 px-3 py-2 rounded-md border">
+                    <div className={`flex items-center gap-2 text-sm text-muted-foreground bg-gray-50 px-3 py-2 rounded-md border ${!canEdit ? 'opacity-60' : ''}`}>
                         <span>fiverecruit.com/server/</span>
                         <input
                             className="bg-transparent border-none focus:outline-none flex-1 font-medium text-black"
@@ -67,6 +68,7 @@ export function ServerSettingsForm({ server, canDelete = false }: { server: any,
                             value={formData.slug}
                             onChange={handleChange}
                             required
+                            disabled={!canEdit}
                         />
                     </div>
                     <p className="text-xs text-muted-foreground">Identifiant unique pour votre page publique.</p>
@@ -81,6 +83,7 @@ export function ServerSettingsForm({ server, canDelete = false }: { server: any,
                         onChange={handleChange}
                         rows={4}
                         placeholder="Décrivez votre serveur..."
+                        disabled={!canEdit}
                     />
                 </div>
 
@@ -92,6 +95,7 @@ export function ServerSettingsForm({ server, canDelete = false }: { server: any,
                         value={formData.cover_image_url}
                         onChange={handleChange}
                         placeholder="https://..."
+                        disabled={!canEdit}
                     />
                     <p className="text-xs text-muted-foreground">Lien direct vers une image (jpg, png).</p>
                 </div>
@@ -104,14 +108,17 @@ export function ServerSettingsForm({ server, canDelete = false }: { server: any,
                         value={formData.discord_invite_url}
                         onChange={handleChange}
                         placeholder="https://discord.gg/..."
+                        disabled={!canEdit}
                     />
                 </div>
 
-                <div className="pt-4 flex justify-end">
-                    <Button type="submit" disabled={loading}>
-                        {loading ? 'Sauvegarde...' : 'Enregistrer les modifications'}
-                    </Button>
-                </div>
+                {canEdit && (
+                    <div className="pt-4 flex justify-end">
+                        <Button type="submit" disabled={loading}>
+                            {loading ? 'Sauvegarde...' : 'Enregistrer les modifications'}
+                        </Button>
+                    </div>
+                )}
             </form>
 
             {canDelete && (

@@ -51,7 +51,7 @@ export function DashboardSidebar() {
     const router = useRouter()
     const supabase = createClient()
 
-    const [permissions, setPermissions] = useState<{ canEditServer: boolean; canManageSubscription: boolean } | null>(null)
+    const [permissions, setPermissions] = useState<{ canEditServer: boolean; canManageSubscription: boolean; canDeleteServer: boolean } | null>(null)
 
     // Extract serverId safely
     const serverId = params?.serverId as string | undefined
@@ -132,7 +132,7 @@ export function DashboardSidebar() {
 
 
 
-                                {permissions?.canEditServer && (
+                                {permissions && (permissions.canEditServer || permissions.canDeleteServer) && (
                                     <SidebarMenuItem>
                                         <SidebarMenuButton asChild isActive={pathname?.includes('/settings')}>
                                             <Link href={`/dashboard/server/${serverId}/settings`}>

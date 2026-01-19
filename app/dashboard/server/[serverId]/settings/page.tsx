@@ -30,7 +30,7 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
     const canEdit = await checkPermission(serverId, 'can_edit_server')
     const canDelete = await checkPermission(serverId, 'can_delete_server')
 
-    if (!canEdit) {
+    if (!canEdit && !canDelete) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
                 <div className="p-4 rounded-full bg-red-100">
@@ -68,7 +68,7 @@ export default async function SettingsPage(props: { params: Promise<{ serverId: 
 
             <div className="bg-white rounded-xl shadow-sm border p-6">
                 <h2 className="text-lg font-semibold mb-4">Informations Générales</h2>
-                <ServerSettingsForm server={server} canDelete={canDelete} />
+                <ServerSettingsForm server={server} canDelete={canDelete} canEdit={canEdit} />
             </div>
         </div>
     )
