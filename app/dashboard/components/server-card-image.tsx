@@ -25,8 +25,12 @@ export function ServerCardImage({ src, alt }: { src?: string, alt: string }) {
                 <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
 
                 {/* Icon */}
-                <div className="relative z-10 bg-white/20 p-4 rounded-full backdrop-blur-md shadow-inner border border-white/30">
-                    <Server className="h-8 w-8 text-white drop-shadow-md" />
+                <div className="relative z-10 bg-white/20 p-3 rounded-full backdrop-blur-md shadow-inner border border-white/30">
+                    <img
+                        src="/logo.png"
+                        alt="Logo"
+                        className="h-10 w-10 object-contain drop-shadow-md opacity-90"
+                    />
                 </div>
             </div>
         )
