@@ -16,7 +16,9 @@ export async function deleteServer(serverId: string) {
         throw new Error("Permission refusée. Vous n'avez pas le droit de supprimer ce serveur.")
     }
 
-    // 2. Recover License (Detach Subscription if extends)
+    // 2. Recover Subscriptions and Licenses (Detach)
+
+    // 2a. Detach Subscription
     const { data: subscription } = await supabase
         .from('subscriptions')
         .select('id, status')
@@ -25,7 +27,6 @@ export async function deleteServer(serverId: string) {
         .maybeSingle()
 
     if (subscription) {
-        // Detach subscription so user can re-use it
         const { error: subError } = await supabase
             .from('subscriptions')
             .update({ server_id: null })
@@ -33,8 +34,20 @@ export async function deleteServer(serverId: string) {
 
         if (subError) {
             console.error("Failed to detach subscription", subError)
-            throw new Error("Erreur lors de la récupération de la licence.")
+            throw new Error("Erreur lors de la récupération de l'abonnement.")
         }
+    }
+
+    // 2b. Detach License (FiveM Key)
+    // This was causing the FK violation: licenses_server_id_fkey
+    const { error: licenseError } = await supabase
+        .from('licenses')
+        .update({ server_id: null })
+        .eq('server_id', serverId)
+
+    if (licenseError) {
+        console.error("Failed to detach license", licenseError)
+        throw new Error("Erreur lors de la libération de la licence FiveM.")
     }
 
     // 3. Delete Server
